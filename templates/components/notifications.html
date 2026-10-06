@@ -1,0 +1,23 @@
+{% if authed() %}
+<section class="medusa-notifications" aria-label="Notifications">
+  <button type="button" class="medusa-notification-trigger" data-medusa-notifications
+          aria-expanded="false" aria-controls="medusa-notification-panel">
+    <span aria-hidden="true">◌</span>
+    <span class="visually-hidden">Notifications</span>
+    {% if notifications %}
+      <span class="medusa-notification-count">{{ notifications|length }}</span>
+    {% endif %}
+  </button>
+  <div id="medusa-notification-panel" class="medusa-notification-panel" hidden>
+    {% if notifications %}
+      {% for notification in notifications %}
+        <article class="medusa-notification">
+          {{ notification }}
+        </article>
+      {% endfor %}
+    {% else %}
+      <p class="medusa-notification-empty">No new notifications.</p>
+    {% endif %}
+  </div>
+</section>
+{% endif %}

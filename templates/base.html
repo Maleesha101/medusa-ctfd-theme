@@ -8,34 +8,15 @@
     {% block head %}{% endblock %}
   </head>
   <body class="medusa-shell">
-    <header class="container py-4">
-      <nav class="medusa-panel d-flex align-items-center justify-content-between p-3" aria-label="Primary navigation">
-        <a href="{{ url_for('views.index') }}" class="text-decoration-none" aria-label="MEDUSA home">
-          <span class="medusa-badge">MEDUSA</span>
-        </a>
-        <div class="d-flex gap-3 align-items-center flex-wrap">
-          <a href="{{ url_for('challenges.challenges_view') }}">Challenges</a>
-          <a href="{{ url_for('scoreboard.listing') }}">Scoreboard</a>
-          {% if authed() %}
-            <a href="{{ url_for('auth.settings') }}">Settings</a>
-            <a href="{{ url_for('auth.logout') }}">Logout</a>
-          {% else %}
-            <a href="{{ url_for('auth.login') }}">Login</a>
-          {% endif %}
-        </div>
-      </nav>
-    </header>
-
-    <main>
+    {% include "components/navbar.html" %}
+    <main id="main-content">
       {% block content %}{% endblock %}
     </main>
-
     <footer class="container py-5">
       <div class="medusa-panel p-3 text-center">
         <small class="text-muted">MEDUSA CTF Platform</small>
       </div>
     </footer>
-
     <script type="module">{{ Assets.js("assets/js/app.js") }}</script>
     {% block scripts %}{% endblock %}
   </body>

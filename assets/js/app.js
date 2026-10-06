@@ -1,19 +1,22 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const board = document.querySelector("[data-medusa-board]");
-  if (!board) return;
+const navToggle = document.querySelector("[data-medusa-nav-toggle]");
+const primaryNav = document.querySelector("#medusa-primary-nav");
 
-  const cards = board.querySelectorAll("[data-challenge-card]");
-  cards.forEach((card) => {
-    card.addEventListener("click", () => {
-      const route = card.dataset.challengeUrl;
-      if (route) {
-        window.location.href = route;
-      }
-    });
+if (navToggle && primaryNav) {
+  navToggle.addEventListener("click", () => {
+    const expanded = navToggle.getAttribute("aria-expanded") === "true";
+    navToggle.setAttribute("aria-expanded", String(!expanded));
+    primaryNav.classList.toggle("is-open", !expanded);
   });
+}
 
-  const scoreboard = document.querySelector("[data-scoreboard]");
-  if (scoreboard) {
-    scoreboard.setAttribute("data-loaded", "true");
-  }
+document.querySelectorAll("[data-medusa-notifications]").forEach((trigger) => {
+  const panelId = trigger.getAttribute("aria-controls");
+  const panel = panelId ? document.getElementById(panelId) : null;
+  if (!panel) return;
+
+  trigger.addEventListener("click", () => {
+    const expanded = trigger.getAttribute("aria-expanded") === "true";
+    trigger.setAttribute("aria-expanded", String(!expanded));
+    panel.hidden = expanded;
+  });
 });
