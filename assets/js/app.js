@@ -1,3 +1,4 @@
+document.querySelectorAll("[data-medusa-nav-toggle]").forEach((toggle)=>{const nav=document.getElementById(toggle.getAttribute("aria-controls"));if(!nav)return;toggle.addEventListener("click",()=>{const expanded=toggle.getAttribute("aria-expanded")==="true";toggle.setAttribute("aria-expanded",String(!expanded));nav.classList.toggle("is-open",!expanded);});nav.addEventListener("click",(event)=>{if(event.target.closest("a")){toggle.setAttribute("aria-expanded","false");nav.classList.remove("is-open");}});});
 document.querySelectorAll("[data-medusa-auth-form]").forEach((form) => {
   form.addEventListener("submit", () => {
     const submit = form.querySelector("[data-medusa-submit]");
