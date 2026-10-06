@@ -1,17 +1,29 @@
+/* MEDUSA semantic design tokens.
+ * Values are derived from KODEGAS/Medusa-2.0.
+ * Keep component styling semantic; avoid one-off colors.
+ */
 :root {
-  --medusa-bg: #08090d;
-  --medusa-surface: #11131a;
-  --medusa-surface-elevated: #171a22;
-  --medusa-primary: #00e5ff;
-  --medusa-secondary: #7c3aed;
-  --medusa-success: #00ff9c;
-  --medusa-warning: #ffb020;
-  --medusa-danger: #ff3355;
-  --medusa-text: #e6edf3;
-  --medusa-text-muted: #8b949e;
-  --medusa-border: #252a34;
-  --medusa-shadow: rgba(0, 229, 255, 0.12);
+  --medusa-bg: hsl(220 100% 3%);
+  --medusa-surface: hsl(220 90% 5%);
+  --medusa-surface-elevated: hsl(220 90% 7%);
+  --medusa-primary: hsl(120 100% 55%);
+  --medusa-secondary: hsl(185 100% 50%);
+  --medusa-accent: hsl(270 70% 40%);
+  --medusa-success: hsl(120 100% 55%);
+  --medusa-warning: hsl(45 100% 53%);
+  --medusa-danger: hsl(0 84% 60%);
+  --medusa-text: hsl(180 100% 95%);
+  --medusa-text-muted: hsl(180 30% 65%);
+  --medusa-border: hsl(220 50% 20%);
+  --medusa-shadow: hsl(220 50% 8% / 0.8);
   --medusa-font-body: "Inter", "Segoe UI", sans-serif;
   --medusa-font-heading: "Space Grotesk", "Segoe UI", sans-serif;
   --medusa-font-mono: "JetBrains Mono", "SFMono-Regular", monospace;
+  --medusa-radius-panel: 16px;
+  --medusa-radius-card: 14px;
+  --medusa-radius-control: 10px;
+  --medusa-transition: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  :root { --medusa-transition: 0ms linear; }
 }
