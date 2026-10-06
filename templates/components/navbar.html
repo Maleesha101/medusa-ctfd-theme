@@ -1,0 +1,32 @@
+<header class="medusa-navbar">
+  <div class="container medusa-navbar__inner">
+    <a href="{{ url_for('views.index') }}" class="medusa-navbar__brand" aria-label="MEDUSA home">
+      <span class="medusa-brand-mark" aria-hidden="true">M</span>
+      <span class="medusa-brand-name">MEDUSA</span>
+    </a>
+
+    <button class="medusa-navbar__toggle" type="button"
+            aria-expanded="false" aria-controls="medusa-primary-nav"
+            data-medusa-nav-toggle>
+      <span class="visually-hidden">Toggle navigation</span>
+      <span aria-hidden="true">☰</span>
+    </button>
+
+    <nav id="medusa-primary-nav" class="medusa-navbar__nav" aria-label="Primary navigation">
+      <a href="{{ url_for('views.index') }}" class="medusa-nav-link{% if request.endpoint == 'views.index' %} is-active{% endif %}">Home</a>
+      <a href="{{ url_for('challenges.challenges_view') }}" class="medusa-nav-link{% if request.endpoint == 'challenges.challenges_view' %} is-active{% endif %}">Challenges</a>
+      <a href="{{ url_for('scoreboard.listing') }}" class="medusa-nav-link{% if request.endpoint == 'scoreboard.listing' %} is-active{% endif %}">Scoreboard</a>
+
+      {% if authed() %}
+        <a href="{{ url_for('auth.settings') }}" class="medusa-nav-link{% if request.endpoint == 'auth.settings' %} is-active{% endif %}">Settings</a>
+        <span class="medusa-navbar__status" aria-label="Competition status">
+          <span class="medusa-status-dot" aria-hidden="true"></span>
+          <span>LIVE</span>
+        </span>
+        <a href="{{ url_for('auth.logout') }}" class="medusa-nav-link medusa-nav-link--secondary">Logout</a>
+      {% else %}
+        <a href="{{ url_for('auth.login') }}" class="medusa-nav-link medusa-nav-link--primary">Login</a>
+      {% endif %}
+    </nav>
+  </div>
+</header>
