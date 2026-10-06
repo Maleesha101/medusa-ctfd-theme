@@ -2,8 +2,9 @@
 {% block title %}Scoreboard · MEDUSA{% endblock %}
 {% block content %}
 <section class="medusa-scoreboard"><div class="container">
-<header class="medusa-scoreboard__header"><span class="medusa-badge">Live Rankings</span><h1>Scoreboard</h1><p>Competition standings supplied by CTFd.</p></header>
+<header class="medusa-scoreboard__header"><span class="medusa-badge">Live Rankings</span><h1>Scoreboard</h1><p>Competition standings supplied by CTFd. Refresh the page for the latest server-side ranking state.</p></header>
 <div class="medusa-scoreboard__toolbar"><label class="visually-hidden" for="medusa-scoreboard-search">Search teams</label><input id="medusa-scoreboard-search" class="medusa-search" type="search" placeholder="Search teams…" autocomplete="off" data-medusa-scoreboard-search></div>
-<div class="medusa-scoreboard__table-wrap"><table class="medusa-table medusa-scoreboard-table"><caption class="visually-hidden">Current competition rankings</caption><thead><tr><th scope="col">Rank</th><th scope="col">Team</th><th scope="col">Solves</th><th scope="col">Score</th></tr></thead><tbody>{% for team in teams %}<tr data-scoreboard-row><td><span class="medusa-rank medusa-rank--{{ loop.index }}">{{ loop.index }}</span></td><th scope="row">{{ team.name }}</th><td>{{ team.solves or team.solved_count or 0 }}</td><td class="medusa-score">{{ team.score or 0 }}</td></tr>{% else %}<tr><td colspan="4">No scoreboard entries are available.</td></tr>{% endfor %}</tbody></table></div>
-</div></section>
-{% endblock %}
+<div class="medusa-scoreboard__table-wrap"><table class="medusa-table medusa-scoreboard-table"><caption class="visually-hidden">Current competition rankings</caption><thead><tr><th scope="col">Rank</th><th scope="col">Team</th><th scope="col">University</th><th scope="col">Solves</th><th scope="col">First Blood</th><th scope="col">Score</th></tr></thead><tbody>
+{% for team in teams %}<tr data-scoreboard-row><td><span class="medusa-rank medusa-rank--{{ loop.index }}">{{ loop.index }}</span></td><th scope="row"><a href="{{ team.href or '#' }}">{{ team.name }}</a></th><td>{{ team.university or team.affiliation or "—" }}</td><td>{{ team.solves or team.solved_count or 0 }}</td><td>{% if team.first_bloods %}<span class="medusa-first-blood" title="First bloods">{{ team.first_bloods }}</span>{% else %}—{% endif %}</td><td class="medusa-score">{{ team.score or 0 }}</td></tr>
+{% else %}<tr><td colspan="6">No scoreboard entries are available.</td></tr>{% endfor %}</tbody></table></div>
+</div></section>{% endblock %}
