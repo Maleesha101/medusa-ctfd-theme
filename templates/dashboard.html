@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · MEDUSA{% endblock %}
+{% block content %}
+<section class="medusa-dashboard"><div class="container">
+<header class="medusa-dashboard__header"><div><span class="medusa-badge">Mission Control</span><h1 class="mt-3">Team Dashboard</h1><p class="text-muted">Your competition position, progress and event activity.</p></div><a class="medusa-btn" href="{{ url_for('challenges.challenges_view') }}">ENTER CHALLENGES</a></header>
+<section class="row g-3 mb-4" aria-label="Team statistics">
+<div class="col-6 col-lg-3"><div class="medusa-card medusa-stat"><span class="medusa-stat__label">Score</span><span class="medusa-stat__value">{{ score or team.score or 0 }}</span></div></div>
+<div class="col-6 col-lg-3"><div class="medusa-card medusa-stat"><span class="medusa-stat__label">Rank</span><span class="medusa-stat__value">#{{ rank or team.rank or "—" }}</span></div></div>
+<div class="col-6 col-lg-3"><div class="medusa-card medusa-stat"><span class="medusa-stat__label">Solved</span><span class="medusa-stat__value">{{ solved_count or solves|length if solves is iterable and solves is not string else solves or 0 }}</span></div></div>
+<div class="col-6 col-lg-3"><div class="medusa-card medusa-stat"><span class="medusa-stat__label">Team</span><span class="medusa-stat__value medusa-stat__value--small">{{ team.name or "—" }}</span></div></div>
+</section>
+<div class="row g-4"><div class="col-lg-8">
+<section class="medusa-panel p-4 mb-4"><div class="d-flex justify-content-between align-items-center mb-3"><div><span class="medusa-stat__label">Competition</span><h2 class="h4 mb-0">Progress</h2></div><span class="medusa-live-indicator"><span></span>LIVE</span></div>
+{% set solved = solved_count or (solves|length if solves is iterable and solves is not string else solves or 0) %}{% set total = total_challenges or 0 %}{% set progress = ((solved / total) * 100) if total else 0 %}
+<div class="medusa-progress-track" aria-label="Team challenge progress"><div class="medusa-progress-bar" style="width: {{ [progress, 100]|min }}%"></div></div><div class="d-flex justify-content-between mt-2 text-muted small"><span>{{ solved }} solved</span><span>{{ total }} challenges</span></div></section>
+<section class="medusa-panel p-4"><div class="d-flex justify-content-between align-items-center mb-3"><div><span class="medusa-stat__label">Activity</span><h2 class="h4 mb-0">Recent Solves</h2></div></div>
+{% if solves %}<div class="medusa-activity-list">{% for solve in solves[:8] %}<div class="medusa-activity-item"><span class="medusa-status-dot" aria-hidden="true"></span><div><strong>{{ solve.challenge.name or solve.challenge }}</strong><small class="d-block text-muted">{{ solve.date or solve.created_at or "Completed" }}</small></div><span class="medusa-activity-score">+{{ solve.challenge.value or solve.value or 0 }}</span></div>{% endfor %}</div>{% else %}<p class="text-muted mb-0">No solves recorded yet. Your first flag starts the run.</p>{% endif %}</section>
+</div><aside class="col-lg-4"><section class="medusa-card mb-4"><span class="medusa-stat__label">Team Identity</span><h2 class="h4 mt-2">{{ team.name or "Unassigned Team" }}</h2><p class="text-muted mb-2">University</p><p>{{ team.affiliation or team.university or "Not provided" }}</p>{% if team.members %}<p class="text-muted mb-2 mt-3">Members</p><ul class="medusa-member-list">{% for member in team.members %}<li>{{ member.name or member }}</li>{% endfor %}</ul>{% endif %}</section>
+<section class="medusa-card"><span class="medusa-stat__label">Announcements</span><h2 class="h4 mt-2">Event Updates</h2>{% if notifications %}<div class="medusa-announcements">{% for item in notifications[:5] %}<article><strong>{{ item.title or "MEDUSA Update" }}</strong><p class="text-muted mb-0">{{ item.content or item.message or "" }}</p></article>{% endfor %}</div>{% else %}<p class="text-muted mb-0">No new announcements.</p>{% endif %}</section></aside></div>
+</div></section>{% endblock %}
