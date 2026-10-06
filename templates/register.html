@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Register · MEDUSA{% endblock %}
+{% block content %}
+<section class="medusa-auth">
+  <div class="container">
+    <div class="medusa-auth-card medusa-auth-card--wide">
+      <div class="medusa-auth-header">
+        <span class="medusa-badge">MEDUSA // REGISTRATION</span>
+        <h1>Create your account</h1>
+        <p>Register through CTFd to join the MEDUSA competition.</p>
+      </div>
+
+      {% include "components/errors.html" %}
+
+      {% with form = Forms.auth.RegistrationForm() %}
+      {% from "macros/forms.html" import render_extra_fields %}
+      <form method="post" accept-charset="utf-8" role="form" class="medusa-auth-form" data-medusa-auth-form>
+        <div class="medusa-field">
+          {{ form.name.label(class="form-label") }}
+          <span class="medusa-required" aria-hidden="true">*</span>
+          {{ form.name(class="form-control medusa-input", value=name, autocomplete="username", required=true, aria_required="true") }}
+          <small>Your username on the site.</small>
+        </div>
+        <div class="medusa-field">
+          {{ form.email.label(class="form-label") }}
+          <span class="medusa-required" aria-hidden="true">*</span>
+          {{ form.email(class="form-control medusa-input", value=email, autocomplete="email", required=true, aria_required="true") }}
+          <small>Your email is not shown publicly.</small>
+        </div>
+        <div class="medusa-field">
+          {{ form.password.label(class="form-label") }}
+          <span class="medusa-required" aria-hidden="true">*</span>
+          {{ form.password(class="form-control medusa-input", value=password, autocomplete="new-password", required=true, aria_required="true") }}
+          <small>Use a strong password you do not reuse elsewhere.</small>
+        </div>
+
+        {{ form.nonce() }}
+        {{ render_extra_fields(form.extra) }}
+
+        <div class="medusa-auth-actions medusa-auth-actions--end">
+          {{ form.submit(class="medusa-btn medusa-btn--full", data_medusa_submit="true") }}
+        </div>
+
+        {% if Configs.tos_or_privacy %}
+        <p class="medusa-legal">
+          {% trans trimmed privacy_link=Configs.privacy_link, tos_link=Configs.tos_link %}
+          By registering, you agree to the
+          <a href="{{ privacy_link }}" target="_blank" rel="noopener noreferrer">privacy policy</a>
+          and <a href="{{ tos_link }}" target="_blank" rel="noopener noreferrer">terms of service</a>.
+          {% endtrans %}
+        </p>
+        {% endif %}
+      </form>
+      {% endwith %}
+
+      <p class="medusa-auth-switch">Already have an account? <a href="{{ url_for('auth.login') }}">Login</a></p>
+    </div>
+  </div>
+</section>
+{% endblock %}

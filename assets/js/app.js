@@ -1,22 +1,10 @@
-const navToggle = document.querySelector("[data-medusa-nav-toggle]");
-const primaryNav = document.querySelector("#medusa-primary-nav");
-
-if (navToggle && primaryNav) {
-  navToggle.addEventListener("click", () => {
-    const expanded = navToggle.getAttribute("aria-expanded") === "true";
-    navToggle.setAttribute("aria-expanded", String(!expanded));
-    primaryNav.classList.toggle("is-open", !expanded);
-  });
-}
-
-document.querySelectorAll("[data-medusa-notifications]").forEach((trigger) => {
-  const panelId = trigger.getAttribute("aria-controls");
-  const panel = panelId ? document.getElementById(panelId) : null;
-  if (!panel) return;
-
-  trigger.addEventListener("click", () => {
-    const expanded = trigger.getAttribute("aria-expanded") === "true";
-    trigger.setAttribute("aria-expanded", String(!expanded));
-    panel.hidden = expanded;
+document.querySelectorAll("[data-medusa-auth-form]").forEach((form) => {
+  form.addEventListener("submit", () => {
+    const submit = form.querySelector("[data-medusa-submit]");
+    if (!submit) return;
+    submit.disabled = true;
+    submit.setAttribute("aria-disabled", "true");
+    submit.dataset.originalText = submit.textContent;
+    submit.textContent = "Authenticating…";
   });
 });
