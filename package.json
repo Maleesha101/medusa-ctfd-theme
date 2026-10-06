@@ -1,0 +1,26 @@
+{
+  "name": "medusa-ctfd-theme",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "vite build --watch --mode=development",
+    "build": "vite build",
+    "format": "prettier --write assets/",
+    "lint": "prettier --check assets/",
+    "verify": "vite build; git diff --quiet --exit-code"
+  },
+  "dependencies": {
+    "@ctfdio/ctfd-js": "^0.0.19",
+    "@fontsource/inter": "^5.0.0",
+    "@fontsource/jetbrains-mono": "^5.0.0",
+    "@fontsource/space-grotesk": "^5.0.0",
+    "alpinejs": "^3.9.1",
+    "bootstrap": "^5.3.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.0.1",
+    "prettier": "^3.2.5",
+    "sass": "^1.49.7",
+    "vite": "^3.0.5"
+  }
+}
