@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}MEDUSA | Challenges{% endblock %}
+
+{% block content %}
+  <div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <span class="medusa-badge">Challenge Board</span>
+        <h2 class="mt-3">Mission Queue</h2>
+      </div>
+      <div class="d-flex gap-2">
+        <button class="btn btn-outline-light" data-filter>Web</button>
+        <button class="btn btn-outline-light" data-filter>Binary</button>
+        <button class="btn btn-outline-light" data-filter>Forensics</button>
+      </div>
+    </div>
+
+    <div class="row g-4" data-medusa-board>
+      <div class="col-md-6 col-xl-4" data-challenge-card data-challenge-url="/challenge/1">
+        <div class="medusa-card">
+          <div class="d-flex justify-content-between">
+            <span class="medusa-badge">WEB</span>
+            <span class="text-success">AVAILABLE</span>
+          </div>
+          <h4 class="mt-3">Signal Intercept</h4>
+          <p class="text-muted">Examine a suspicious traffic funnel and recover the covert payload.</p>
+          <div class="d-flex justify-content-between mt-3">
+            <span>150 pts</span>
+            <span>Medium</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-xl-4" data-challenge-card data-challenge-url="/challenge/2">
+        <div class="medusa-card">
+          <div class="d-flex justify-content-between">
+            <span class="medusa-badge">BINARY</span>
+            <span class="text-warning">RUNNING</span>
+          </div>
+          <h4 class="mt-3">Ghost Relay</h4>
+          <p class="text-muted">Recover the hidden logic path from a stripped runtime agent.</p>
+          <div class="d-flex justify-content-between mt-3">
+            <span>250 pts</span>
+            <span>Hard</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
