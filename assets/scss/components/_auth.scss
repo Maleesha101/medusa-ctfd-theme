@@ -1,0 +1,37 @@
+.medusa-auth { padding: 4rem 0 6rem; }
+.medusa-auth-card {
+  width: min(100%, 520px); margin: 0 auto; padding: 2rem;
+  background: var(--medusa-surface); border: 1px solid var(--medusa-border);
+  border-radius: var(--medusa-radius-panel); box-shadow: 0 24px 60px var(--medusa-shadow);
+}
+.medusa-auth-card--wide { width: min(100%, 640px); }
+.medusa-auth-header { margin-bottom: 2rem; }
+.medusa-auth-header h1 { margin: 1rem 0 .5rem; }
+.medusa-auth-header p, .medusa-auth-switch, .medusa-legal, .medusa-field small { color: var(--medusa-text-muted); }
+.medusa-auth-form { display: grid; gap: 1.25rem; }
+.medusa-field { display: grid; gap: .45rem; }
+.medusa-field .form-label { color: var(--medusa-text); font-weight: 700; }
+.medusa-required { color: var(--medusa-danger); margin-left: .2rem; }
+.medusa-input {
+  width: 100%; min-height: 46px; padding: .7rem .8rem;
+  color: var(--medusa-text); background: var(--medusa-surface-elevated);
+  border: 1px solid var(--medusa-border); border-radius: var(--medusa-radius-control);
+}
+.medusa-input:focus { border-color: var(--medusa-secondary); outline: 2px solid hsl(185 100% 50% / .2); outline-offset: 1px; }
+.medusa-auth-actions { display: flex; gap: 1rem; align-items: center; justify-content: space-between; }
+.medusa-auth-actions--end { justify-content: flex-end; }
+.medusa-auth-actions a, .medusa-auth-switch a, .medusa-legal a { color: var(--medusa-secondary); }
+.medusa-btn--full { min-height: 46px; cursor: pointer; }
+.medusa-auth-alt {
+  display: block; margin-bottom: 1.25rem; padding: .75rem 1rem; text-align: center;
+  border: 1px solid var(--medusa-border); border-radius: var(--medusa-radius-control);
+  color: var(--medusa-text); text-decoration: none; background: var(--medusa-surface-elevated);
+}
+.medusa-auth-alt:hover, .medusa-auth-alt:focus-visible { border-color: var(--medusa-secondary); }
+.medusa-auth-switch { margin: 1.5rem 0 0; text-align: center; }
+.medusa-legal { margin: 0; text-align: center; font-size: .85rem; line-height: 1.6; }
+@media (max-width: 576px) {
+  .medusa-auth { padding: 2rem 0 4rem; }
+  .medusa-auth-card { padding: 1.25rem; }
+  .medusa-auth-actions { flex-direction: column-reverse; align-items: stretch; }
+}
