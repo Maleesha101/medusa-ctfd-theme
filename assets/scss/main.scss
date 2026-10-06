@@ -1,0 +1,102 @@
+@use "tokens";
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--medusa-bg);
+  color: var(--medusa-text);
+  font-family: var(--medusa-font-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--medusa-font-heading);
+  letter-spacing: 0.04em;
+}
+
+.medusa-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, rgba(0, 229, 255, 0.11), transparent 30%),
+    var(--medusa-bg);
+}
+
+.medusa-panel {
+  background: var(--medusa-surface);
+  border: 1px solid var(--medusa-border);
+  border-radius: 16px;
+  box-shadow: 0 12px 32px var(--medusa-shadow);
+}
+
+.medusa-hero {
+  padding: 4rem 0;
+  border-bottom: 1px solid var(--medusa-border);
+}
+
+.medusa-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--medusa-primary);
+  color: var(--medusa-primary);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.medusa-card {
+  background: var(--medusa-surface-elevated);
+  border: 1px solid var(--medusa-border);
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+.medusa-stat {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.medusa-stat__label {
+  color: var(--medusa-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+
+.medusa-stat__value {
+  font-size: 1.7rem;
+  font-weight: 700;
+  font-family: var(--medusa-font-heading);
+}
+
+.medusa-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.medusa-table th,
+.medusa-table td {
+  border-bottom: 1px solid var(--medusa-border);
+  padding: 0.9rem 0.7rem;
+}
+
+.medusa-btn {
+  background: linear-gradient(135deg, var(--medusa-primary), var(--medusa-secondary));
+  border: none;
+  color: #061015;
+  border-radius: 10px;
+  font-weight: 700;
+  padding: 0.7rem 1.1rem;
+}
+
+.code {
+  font-family: var(--medusa-font-mono);
+}
