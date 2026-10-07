@@ -11,7 +11,7 @@ The MEDUSA CTFd theme is the player-facing presentation layer for the MEDUSA com
 - Styles: SCSS
 - JavaScript: browser modules
 
-CTFd themes use Jinja templates plus compiled JavaScript/CSS assets. The generated `static/manifest.json` and `static/manifest-css.json` files are consumed by CTFd's `Assets` helpers.
+CTFd themes use Jinja templates plus compiled JavaScript/CSS assets. CTFd's `Assets` helpers read the generated `static/manifest.json`.
 
 ## Repository layout
 
@@ -25,7 +25,6 @@ medusa-ctfd-theme/
 ├── package.json
 ├── package-lock.json
 ├── vite.config.js
-├── vite.ctfd-manifest.js
 └── README.md
 ```
 
@@ -62,7 +61,7 @@ npm run lint
 
 ## CTFd integration
 
-Copy or mount this repository as a theme under the self-hosted CTFd `themes/medusa` directory and build the assets before starting CTFd.
+Copy or mount this repository as a theme under the self-hosted CTFd `themes/medusa` directory and build the assets before starting CTFd. The build must place `manifest.json` at the root of `static/`, where CTFd expects it.
 
 The theme must use CTFd's `Assets` helper for compiled assets. Do not hard-code generated asset filenames because Vite output can change between builds.
 

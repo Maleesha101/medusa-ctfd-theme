@@ -1,11 +1,9 @@
 import { defineConfig } from "vite";
 import { resolve } from "path";
-import { ctfdCssManifestPlugin } from "./vite.ctfd-manifest.js";
 
 export default defineConfig({
-  plugins: [ctfdCssManifestPlugin()],
   build: {
-    manifest: true,
+    manifest: "manifest.json",
     outDir: "static",
     emptyOutDir: true,
     rollupOptions: {

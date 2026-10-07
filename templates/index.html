@@ -1,68 +1,46 @@
 {% extends "base.html" %}
-
 {% block title %}MEDUSA | Inter-University CTF Competition{% endblock %}
-
 {% block content %}
-  <section class="medusa-hero">
-    <div class="container">
-      <div class="row align-items-center g-4">
-        <div class="col-lg-7">
-          <span class="medusa-badge">Inter-University CTF Competition</span>
-          <h1 class="display-4 mt-3">MEDUSA</h1>
-          <p class="lead text-muted mt-4">
-            Mission-control cyber operations. High-pressure challenge execution designed for serious competitors and well-run events.
-          </p>
-          <div class="mt-4 d-flex gap-3 align-items-center">
-            <button class="medusa-btn">ENTER THE ARENA</button>
-            <a class="btn btn-outline-light" href="/challenges">View Challenges</a>
-          </div>
+<section class="medusa-landing">
+  <div class="container">
+    <div class="row align-items-center g-5 py-5">
+      <div class="col-lg-7">
+        <span class="medusa-badge">Inter-University CTF Competition</span>
+        <h1 class="medusa-landing__title mt-3">ENTER THE<br><span>ARENA</span></h1>
+        <p class="medusa-landing__lead">Mission-control cyber operations for teams ready to solve, exploit, investigate and defend.</p>
+        <div class="medusa-landing__actions">
+          {% if authed() %}
+            <a class="medusa-btn" href="{{ url_for('challenges.listing') }}">ENTER CHALLENGES</a>
+            <a class="medusa-btn medusa-btn--ghost" href="{{ url_for('scoreboard.listing') }}">VIEW SCOREBOARD</a>
+          {% else %}
+            <a class="medusa-btn" href="{{ url_for('auth.register') }}">REGISTER TEAM</a>
+            <a class="medusa-btn medusa-btn--ghost" href="{{ url_for('auth.login') }}">SIGN IN</a>
+          {% endif %}
         </div>
-        <div class="col-lg-5">
-          <div class="medusa-panel p-4" data-medusa-board>
-            <div class="d-flex justify-content-between align-items-center mb-3">
-              <strong>Competition Status</strong>
-              <span class="medusa-badge">LIVE</span>
-            </div>
-            <div class="row g-3">
-              <div class="col-6">
-                <div class="medusa-card medusa-stat">
-                  <span class="medusa-stat__label">Starts In</span>
-                  <span class="medusa-stat__value code">03:14:22</span>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="medusa-card medusa-stat">
-                  <span class="medusa-stat__label">Teams</span>
-                  <span class="medusa-stat__value">42</span>
-                </div>
-              </div>
-            </div>
+      </div>
+      <div class="col-lg-5">
+        <aside class="medusa-landing__status medusa-panel" aria-labelledby="competition-status-title">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <span class="medusa-stat__label">Competition Status</span>
+            <span class="medusa-live-indicator"><span></span>{{ config.ctf_name or "MEDUSA" }}</span>
           </div>
-        </div>
+          <h2 id="competition-status-title" class="h3 mb-3">{{ config.ctf_name or "MEDUSA" }}</h2>
+          <p class="text-muted mb-4">Challenge environments, rankings and event updates are served through the CTFd competition platform.</p>
+          <div class="medusa-landing__telemetry">
+            <div><span class="medusa-stat__label">Mode</span><strong>CTF</strong></div>
+            <div><span class="medusa-stat__label">Platform</span><strong>MEDUSA</strong></div>
+          </div>
+        </aside>
       </div>
     </div>
-  </section>
-
-  <section class="container py-5">
-    <div class="row g-4">
-      <div class="col-md-4">
-        <div class="medusa-card">
-          <h3>Rules</h3>
-          <p class="text-muted">All actions follow competition policy, safe use of challenge environments, and responsible disclosure boundaries.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="medusa-card">
-          <h3>Categories</h3>
-          <p class="text-muted">Web, Binary, Reverse, Forensics, ICS, OSINT, AI Security, and more.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="medusa-card">
-          <h3>Announcements</h3>
-          <p class="text-muted">Live updates, challenge notes, and event status announcements appear here.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  </div>
+</section>
+<section class="container pb-5" aria-labelledby="medusa-features-title">
+  <div class="medusa-section-heading"><span class="medusa-badge">OPERATIONS</span><h2 id="medusa-features-title">Built for the competition</h2></div>
+  <div class="row g-4">
+    <div class="col-md-4"><article class="medusa-card medusa-feature"><span class="medusa-feature__index">01</span><h3>CHALLENGES</h3><p class="text-muted">Web, binary, reverse engineering, forensics, OSINT, crypto, ICS and security-focused challenges.</p></article></div>
+    <div class="col-md-4"><article class="medusa-card medusa-feature"><span class="medusa-feature__index">02</span><h3>LIVE RANKINGS</h3><p class="text-muted">Track team progress through the CTFd-powered scoreboard without exposing scoring logic to the browser.</p></article></div>
+    <div class="col-md-4"><article class="medusa-card medusa-feature"><span class="medusa-feature__index">03</span><h3>ISOLATED LABS</h3><p class="text-muted">Challenge instances are managed by the platform backend; browser clients never receive infrastructure credentials.</p></article></div>
+  </div>
+</section>
 {% endblock %}
