@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% from "macros/forms.html" import render_extra_fields %}
 
-{% block title %}Settings · MEDUSA{% endblock %}
+{% block title %}Settings · MEDUSA{% block scripts %}
+  {{ Assets.js("assets/js/settings.js") }}
+{% endblock %}
 
 {% block content %}
 <section class="medusa-settings">
