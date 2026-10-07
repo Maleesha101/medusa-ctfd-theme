@@ -2,6 +2,10 @@
 @use "components/navbar";
 @use "components/notifications";
 @use "components/auth";
+@use "components/challenges";
+@use "components/scoreboard";
+@use "components/dashboard";
+@use "components/landing";
 
 :root { color-scheme: dark; }
 
