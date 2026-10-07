@@ -1,3 +1,45 @@
 {% extends "base.html" %}
 {% block title %}Challenges · MEDUSA{% endblock %}
-{% block content %}<section class="medusa-challenges"><div class="container"><header><span class="medusa-badge">Challenge Board</span><h1>Mission Queue</h1><p>Search and filter the live challenge set.</p></header><div class="medusa-board-toolbar"><input class="medusa-search" type="search" placeholder="Search challenges…" aria-label="Search challenges" data-medusa-challenge-search><div class="medusa-category-list" role="group" aria-label="Challenge categories"><button type="button" class="medusa-category is-active" data-medusa-category data-category="all">All</button>{% for category in categories %}<button type="button" class="medusa-category" data-medusa-category data-category="{{ category.name|lower }}">{{ category.name }}</button>{% endfor %}</div></div><div class="row g-4">{% for challenge in challenges %}<div class="col-md-6 col-xl-4" data-challenge-card data-category="{{ challenge.category|lower }}"><a href="{{ url_for('challenges.listing') }}#{{ challenge.id }}" class="medusa-card medusa-challenge-card text-decoration-none {% if challenge.solved_by_user %}is-solved{% endif %}"><div class="medusa-challenge-card__meta"><span>{{ challenge.category }}</span><span>{{ challenge.value }} PTS</span></div><h2>{{ challenge.name }}</h2><p class="text-muted">{{ challenge.description | striptags | truncate(140) }}</p><div class="medusa-challenge-card__meta"><span>{{ challenge.type }}</span><span class="medusa-challenge-card__state">{% if challenge.solved_by_user %}SOLVED{% else %}AVAILABLE{% endif %}</span></div></a></div>{% else %}<p>No challenges are available.</p>{% endfor %}</div></div></section>{% endblock %}
+{% block content %}
+<section class="medusa-challenges" x-data="MedusaChallengeBoard" x-init="init()">
+  <div class="container">
+    <header class="medusa-challenges__header">
+      <div><span class="medusa-badge">Challenge Board</span><h1 class="mt-3">Mission Queue</h1><p class="text-muted">Find a target, enter the challenge, and submit your solution.</p></div>
+      <div class="medusa-challenge-count" aria-live="polite" x-text="visibleChallenges().length + ' challenges'"></div>
+    </header>
+    <div class="medusa-board-toolbar">
+      <label class="visually-hidden" for="medusa-challenge-search">Search challenges</label>
+      <input id="medusa-challenge-search" class="medusa-search" type="search" placeholder="Search challenges…" x-model="query">
+      <div class="medusa-category-list" role="group" aria-label="Challenge categories">
+        <button type="button" class="medusa-category" :class="{ 'is-active': category === 'all' }" @click="category = 'all'">All</button>
+        <template x-for="item in categories()" :key="item"><button type="button" class="medusa-category" :class="{ 'is-active': category === item }" @click="category = item" x-text="item"></button></template>
+      </div>
+    </div>
+    <div x-show="loading" class="medusa-loading" aria-live="polite">Loading challenge intelligence…</div>
+    <div x-show="!loading && visibleChallenges().length === 0" class="medusa-panel p-4"><h2 class="h4">No matching challenges</h2><p class="text-muted mb-0">Try another category or search term.</p></div>
+    <div x-show="!loading" class="row g-4">
+      <template x-for="challenge in visibleChallenges()" :key="challenge.id">
+        <div class="col-md-6 col-xl-4"><button type="button" class="medusa-card medusa-challenge-card text-start w-100" :class="{ 'is-solved': challenge.solved_by_me }" @click="openChallenge(challenge.id)">
+          <div class="medusa-challenge-card__meta"><span x-text="challenge.category"></span><span x-text="challenge.value + ' PTS'"></span></div><h2 x-text="challenge.name"></h2><p class="text-muted" x-text="stripHtml(challenge.description || '')"></p>
+          <div class="medusa-challenge-card__meta"><span x-text="challenge.type || 'Challenge'"></span><span class="medusa-challenge-card__state" x-text="challenge.solved_by_me ? 'SOLVED' : 'AVAILABLE'"></span></div>
+        </button></div>
+      </template>
+    </div>
+  </div>
+  <div class="medusa-challenge-modal" x-show="selected" x-cloak @keydown.escape.window="closeChallenge()">
+    <div class="medusa-modal-backdrop" @click="closeChallenge()"></div>
+    <article class="medusa-challenge-dialog" role="dialog" aria-modal="true" aria-labelledby="medusa-challenge-title" @click.stop>
+      <button type="button" class="medusa-modal-close" @click="closeChallenge()" aria-label="Close challenge">×</button>
+      <template x-if="selected"><div>
+        <header class="medusa-challenge-header"><div><span class="medusa-badge" x-text="selected.category"></span><h2 id="medusa-challenge-title" x-text="selected.name"></h2><p class="text-muted" x-text="selected.byline || selected.type || 'MEDUSA challenge'"></p></div><div class="medusa-challenge-points"><span x-text="selected.value"></span> <small>PTS</small></div></header>
+        <div class="medusa-challenge-description" x-html="selected.html"></div>
+        <section x-show="selected.connection_info" class="medusa-instance"><span class="medusa-stat__label">Connection</span><code x-text="selected.connection_info"></code></section>
+        <section x-show="selected.files?.length" class="medusa-challenge-section"><h3>Files</h3><ul class="medusa-file-list"><template x-for="file in selected.files" :key="file"><li><a :href="file" target="_blank" rel="noopener noreferrer" x-text="filename(file)"></a></li></template></ul></section>
+        <section x-show="selected.hints?.length" class="medusa-challenge-section"><h3>Hints</h3><template x-for="hint in selected.hints" :key="hint.id"><details><summary x-text="hint.title || ('Hint · ' + hint.cost + ' pts')"></summary><div x-html="hint.html || hint.content || ''"></div></details></template></section>
+        <form class="medusa-submit-panel" @submit.prevent="submitFlag()"><label for="medusa-flag">Flag</label><input id="medusa-flag" class="medusa-input" type="text" autocomplete="off" spellcheck="false" x-model="submission" :disabled="submitting" required><button class="medusa-btn medusa-btn--full" type="submit" :disabled="submitting" x-text="submitting ? 'Submitting…' : 'Submit flag'"></button><div class="medusa-submit-status" x-show="response" :class="responseClass()" aria-live="polite" x-text="responseMessage()"></div></form>
+      </div></template>
+    </article>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}{{ Assets.js("assets/js/challenges.js") }}{% endblock %}
