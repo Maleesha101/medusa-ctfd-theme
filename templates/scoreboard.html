@@ -1,10 +1,33 @@
 {% extends "base.html" %}
 {% block title %}Scoreboard · MEDUSA{% endblock %}
 {% block content %}
-<section class="medusa-scoreboard"><div class="container">
-<header class="medusa-scoreboard__header"><span class="medusa-badge">Live Rankings</span><h1>Scoreboard</h1><p>Competition standings supplied by CTFd. Refresh the page for the latest server-side ranking state.</p></header>
-<div class="medusa-scoreboard__toolbar"><label class="visually-hidden" for="medusa-scoreboard-search">Search teams</label><input id="medusa-scoreboard-search" class="medusa-search" type="search" placeholder="Search teams…" autocomplete="off" data-medusa-scoreboard-search></div>
-<div class="medusa-scoreboard__table-wrap"><table class="medusa-table medusa-scoreboard-table"><caption class="visually-hidden">Current competition rankings</caption><thead><tr><th scope="col">Rank</th><th scope="col">Team</th><th scope="col">University</th><th scope="col">Solves</th><th scope="col">First Blood</th><th scope="col">Score</th></tr></thead><tbody>
-{% for team in teams %}<tr data-scoreboard-row><td><span class="medusa-rank medusa-rank--{{ loop.index }}">{{ loop.index }}</span></td><th scope="row"><a href="{{ team.href or '#' }}">{{ team.name }}</a></th><td>{{ team.university or team.affiliation or "—" }}</td><td>{{ team.solves or team.solved_count or 0 }}</td><td>{% if team.first_bloods %}<span class="medusa-first-blood" title="First bloods">{{ team.first_bloods }}</span>{% else %}—{% endif %}</td><td class="medusa-score">{{ team.score or 0 }}</td></tr>
-{% else %}<tr><td colspan="6">No scoreboard entries are available.</td></tr>{% endfor %}</tbody></table></div>
-</div></section>{% endblock %}
+<section class="medusa-scoreboard" x-data="MedusaScoreboard" x-init="init()">
+  <div class="container">
+    <header class="medusa-scoreboard__header"><span class="medusa-badge">Live Rankings</span><h1>Scoreboard</h1><p>Authoritative competition standings, refreshed automatically.</p></header>
+    <div class="medusa-scoreboard__toolbar">
+      <label class="visually-hidden" for="medusa-scoreboard-search">Search teams</label><input id="medusa-scoreboard-search" class="medusa-search" type="search" placeholder="Search teams…" autocomplete="off" x-model="query">
+      <label x-show="brackets.length" for="medusa-bracket" class="visually-hidden">Bracket</label><select x-show="brackets.length" id="medusa-bracket" class="medusa-select" x-model="activeBracket"><option value="">All brackets</option><template x-for="bracket in brackets" :key="bracket.id"><option :value="bracket.id" x-text="bracket.name"></option></template></select>
+      <span class="medusa-live-indicator"><span></span>LIVE</span>
+    </div>
+    <div x-show="error" class="medusa-scoreboard-alert" role="status" x-text="error"></div>
+    <div class="medusa-scoreboard__table-wrap">
+      <table class="medusa-table medusa-scoreboard-table"><caption class="visually-hidden">Current competition rankings</caption>
+        <thead><tr><th scope="col">Rank</th><th scope="col">Team</th><th scope="col">University</th><th scope="col">Solves</th><th scope="col">First Blood</th><th scope="col">Score</th></tr></thead>
+        <tbody>
+          <tr x-show="loading"><td colspan="6" class="text-center">Loading standings…</td></tr>
+          <tr x-show="!loading && filtered().length === 0"><td colspan="6" class="text-center">No matching standings.</td></tr>
+          <template x-for="team in filtered()" :key="team.account_id || team.team_id || team.id">
+            <tr><td><span class="medusa-rank" :class="'medusa-rank--' + (team.pos || 0)" x-text="team.pos ?? '—'"></span></td>
+              <th scope="row"><span x-text="team.name || 'Unknown team'"></span></th>
+              <td x-text="team.affiliation || team.university || '—'"></td><td x-text="team.solves ?? team.solved_count ?? 0"></td>
+              <td><span x-show="team.first_bloods" class="medusa-first-blood" x-text="team.first_bloods"></span><span x-show="!team.first_bloods">—</span></td>
+              <td class="medusa-score" x-text="team.score ?? 0"></td></tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+    <p class="medusa-scoreboard-updated text-muted" x-show="lastUpdated">Last updated <time x-text="lastUpdated"></time></p>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}{{ Assets.js("assets/js/scoreboard.js") }}{% endblock %}
