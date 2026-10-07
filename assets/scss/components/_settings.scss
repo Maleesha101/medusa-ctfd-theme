@@ -31,3 +31,5 @@
   .medusa-settings { padding-top: 2rem; }
   .medusa-settings-nav { position: static; grid-template-columns: 1fr 1fr; }
 }
+
+.medusa-token-result{margin-top:1rem;padding:1rem;border:1px solid var(--medusa-success);border-radius:var(--medusa-radius-card)}.medusa-token-copy{display:flex;gap:.5rem;margin-top:.75rem}.medusa-token-copy .medusa-input{flex:1}.medusa-btn--danger{border-color:var(--medusa-danger);color:var(--medusa-danger)}.medusa-settings-nav button:focus-visible{outline:2px solid var(--medusa-primary);outline-offset:2px}@media(max-width:700px){.medusa-token-copy{flex-direction:column}}
