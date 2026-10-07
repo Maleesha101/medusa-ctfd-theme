@@ -2,6 +2,7 @@ import Alpine from "alpinejs";
 import CTFd from "@ctfdio/ctfd-js";
 
 window.Alpine = Alpine;
+CTFd.init(window.init);
 
 function externalizeLinks(html) {
   const dom = new DOMParser().parseFromString(html || "", "text/html");
