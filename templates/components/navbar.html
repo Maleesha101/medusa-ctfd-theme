@@ -13,6 +13,7 @@
       {% if authed() %}
         <a href="{{ url_for('views.settings') }}" class="medusa-nav-link{% if request.endpoint == 'views.settings' %} is-active{% endif %}">Settings</a>
         <span class="medusa-navbar__status" aria-label="Competition status: live"><span class="medusa-status-dot" aria-hidden="true"></span><span>LIVE</span></span>
+        {% include "components/notifications.html" %}
         <a href="{{ url_for('auth.logout') }}" class="medusa-nav-link medusa-nav-link--secondary">Logout</a>
       {% else %}<a href="{{ url_for('auth.login') }}" class="medusa-nav-link medusa-nav-link--primary">Login</a>{% endif %}
     </nav>
