@@ -45,3 +45,5 @@
 
 .medusa-notification:last-child { border-bottom: 0; }
 .medusa-notification-empty { margin: 0; padding: 1rem; color: var(--medusa-text-muted); }
+
+.medusa-notification-trigger{cursor:pointer}.medusa-notification-trigger:focus-visible{outline:2px solid var(--medusa-primary);outline-offset:2px}.medusa-notification-panel[hidden]{display:none}.medusa-notification-panel a{color:var(--medusa-primary)}@media(max-width:768px){.medusa-notifications{width:100%}.medusa-notification-panel{position:fixed;left:1rem;right:1rem;top:calc(68px + .5rem);width:auto;z-index:110}}

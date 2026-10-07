@@ -46,3 +46,14 @@ if (navToggle && primaryNav) {
 
   window.matchMedia("(min-width: 769px)").addEventListener("change", closeNavigation);
 }
+
+
+// MEDUSA notification center: accessible disclosure with focus restoration.
+document.querySelectorAll("[data-medusa-notifications]").forEach((trigger) => {
+  const panel = document.getElementById(trigger.getAttribute("aria-controls"));
+  if (!panel) return;
+  const close = () => { panel.hidden = true; trigger.setAttribute("aria-expanded", "false"); };
+  trigger.addEventListener("click", () => { const open = panel.hidden; panel.hidden = !open; trigger.setAttribute("aria-expanded", String(open)); if (open) panel.querySelector("a,button")?.focus(); else trigger.focus(); });
+  document.addEventListener("click", (event) => { if (!panel.hidden && !trigger.contains(event.target) && !panel.contains(event.target)) close(); });
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !panel.hidden) { close(); trigger.focus(); } });
+});
