@@ -2,6 +2,10 @@
 @use "components/navbar";
 @use "components/notifications";
 @use "components/auth";
+@use "components/challenges";
+@use "components/scoreboard";
+@use "components/dashboard";
+@use "components/landing";
 
 :root { color-scheme: dark; }
 
@@ -62,10 +66,3 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700; padding: .7rem 1.1rem;
 }
 .code { font-family: var(--medusa-font-mono); }
-
-@use "components/challenges";
-@use "components/scoreboard";
-
-@use "components/dashboard";
-
-@use "components/landing";
