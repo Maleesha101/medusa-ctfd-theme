@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{% block title %}MEDUSA{% endblock %}</title>
-    {{ Assets.css("main.css") }}
+    {{ Assets.css("assets/scss/main.scss") }}
     {% block head %}{% endblock %}
   </head>
   <body class="medusa-shell">
@@ -17,7 +17,7 @@
         <small class="text-muted">MEDUSA CTF Platform</small>
       </div>
     </footer>
-    <script type="module">{{ Assets.js("assets/js/app.js") }}</script>
+    {{ Assets.js("assets/js/app.js") }}
     {% block scripts %}{% endblock %}
   </body>
 </html>

@@ -10,7 +10,7 @@
         <p class="medusa-landing__lead">Mission-control cyber operations for teams ready to solve, exploit, investigate and defend.</p>
         <div class="medusa-landing__actions">
           {% if authed() %}
-            <a class="medusa-btn" href="{{ url_for('challenges.challenges_view') }}">ENTER CHALLENGES</a>
+            <a class="medusa-btn" href="{{ url_for('challenges.listing') }}">ENTER CHALLENGES</a>
             <a class="medusa-btn medusa-btn--ghost" href="{{ url_for('scoreboard.listing') }}">VIEW SCOREBOARD</a>
           {% else %}
             <a class="medusa-btn" href="{{ url_for('auth.register') }}">REGISTER TEAM</a>
