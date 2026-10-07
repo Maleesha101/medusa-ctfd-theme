@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{% block title %}MEDUSA{% endblock %}</title>
     {{ Assets.css("assets/scss/main.scss") }}
+    <script>window.init = { urlRoot: {{ request.script_root | tojson }}, csrfNonce: {{ Session.nonce | tojson }}, userMode: {{ Configs.user_mode | tojson }}, userId: {{ Session.id | tojson }}, userName: {{ User.name | tojson }}, userEmail: {{ User.email | tojson }}, userVerified: {{ User.verified | tojson }}, teamId: {{ Team.id | tojson }}, teamName: {{ Team.name | tojson }}, start: {{ Configs.start | tojson }}, end: {{ Configs.end | tojson }}, themeSettings: {{ Configs.theme_settings | tojson }} };</script>
     {% block head %}{% endblock %}
   </head>
   <body class="medusa-shell">
