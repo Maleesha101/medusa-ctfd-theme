@@ -16,3 +16,33 @@ const challengeSearch=document.querySelector("[data-medusa-challenge-search]");c
 const scoreboardSearch=document.querySelector("[data-medusa-scoreboard-search]");
 const scoreboardRows=[...document.querySelectorAll("[data-scoreboard-row]")];
 scoreboardSearch?.addEventListener("input",()=>{const query=scoreboardSearch.value.trim().toLowerCase();scoreboardRows.forEach(row=>{row.hidden=Boolean(query)&&!row.textContent.toLowerCase().includes(query);});});
+
+
+// MEDUSA responsive navigation: keep menu state synchronized with ARIA state.
+const navToggle = document.querySelector("[data-medusa-nav-toggle]");
+const primaryNav = document.querySelector("#medusa-primary-nav");
+
+if (navToggle && primaryNav) {
+  const closeNavigation = () => {
+    primaryNav.classList.remove("is-open");
+    navToggle.setAttribute("aria-expanded", "false");
+  };
+
+  navToggle.addEventListener("click", () => {
+    const isOpen = primaryNav.classList.toggle("is-open");
+    navToggle.setAttribute("aria-expanded", String(isOpen));
+  });
+
+  primaryNav.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", closeNavigation);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && primaryNav.classList.contains("is-open")) {
+      closeNavigation();
+      navToggle.focus();
+    }
+  });
+
+  window.matchMedia("(min-width: 769px)").addEventListener("change", closeNavigation);
+}
