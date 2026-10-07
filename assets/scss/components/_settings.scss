@@ -1,0 +1,33 @@
+.medusa-settings { padding: 3rem 0 5rem; }
+.medusa-settings__header { margin-bottom: 2rem; }
+.medusa-settings-nav { display: grid; gap: .5rem; position: sticky; top: 1rem; }
+.medusa-settings-nav button {
+  width: 100%; text-align: left; border: 1px solid var(--medusa-border);
+  background: var(--medusa-surface); color: var(--medusa-text-muted);
+  border-radius: var(--medusa-radius-control); padding: .8rem 1rem;
+  font-weight: 700; cursor: pointer; transition: var(--medusa-transition);
+}
+.medusa-settings-nav button:hover, .medusa-settings-nav button:focus-visible,
+.medusa-settings-nav button.is-active {
+  color: var(--medusa-text); border-color: var(--medusa-primary);
+  box-shadow: 0 0 0 1px var(--medusa-primary);
+}
+.medusa-settings-section + .medusa-settings-section {
+  margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--medusa-border);
+}
+.medusa-form .form-label { color: var(--medusa-text); font-weight: 700; margin-bottom: .45rem; }
+.medusa-form .form-control, .medusa-form .form-select {
+  background: var(--medusa-surface); border-color: var(--medusa-border);
+  color: var(--medusa-text); min-height: 44px;
+}
+.medusa-form .form-control:focus, .medusa-form .form-select:focus {
+  background: var(--medusa-surface); color: var(--medusa-text);
+  border-color: var(--medusa-primary);
+  box-shadow: 0 0 0 2px hsl(120 100% 55% / .18);
+}
+.medusa-table-wrap { overflow-x: auto; }
+.medusa-token-id { font-family: var(--medusa-font-mono); color: var(--medusa-text-muted); }
+@media (max-width: 767.98px) {
+  .medusa-settings { padding-top: 2rem; }
+  .medusa-settings-nav { position: static; grid-template-columns: 1fr 1fr; }
+}
