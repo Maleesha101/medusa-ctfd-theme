@@ -1,0 +1,77 @@
+name: Theme validation
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check formatting
+        run: npm run lint
+
+      - name: Build theme
+        run: npm run build
+
+      - name: Verify generated manifest
+        run: test -s static/manifest.json
+
+      - name: Verify template asset contract
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import path from 'node:path';
+
+          const manifestPath = 'static/manifest.json';
+          const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+          const templateRoot = 'templates';
+          const templates = [];
+
+          function walk(dir) {
+            for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+              const file = path.join(dir, entry.name);
+              if (entry.isDirectory()) walk(file);
+              else if (entry.isFile() && file.endsWith('.html')) templates.push(file);
+            }
+          }
+          walk(templateRoot);
+
+          const referenced = new Set();
+          for (const file of templates) {
+            const content = fs.readFileSync(file, 'utf8');
+            for (const match of content.matchAll(/Assets\.(?:js|css)\(["']([^"']+)["']/g)) {
+              referenced.add(match[1]);
+            }
+          }
+
+          const missing = [...referenced].filter((asset) => !manifest[asset]);
+          if (missing.length) {
+            console.error('Template assets missing from Vite manifest:', missing.join(', '));
+            process.exit(1);
+          }
+          console.log(`Verified ${referenced.size} template asset references.`);
+          NODE
+
+      - name: Upload compiled theme
+        uses: actions/upload-artifact@v4
+        with:
+          name: medusa-theme-build
+          path: static/
+          if-no-files-found: error
